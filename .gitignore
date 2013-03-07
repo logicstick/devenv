@@ -2,3 +2,4 @@
 *.scan
 autom4te.cache
 *.status
+.h~
