@@ -1,3 +1,4 @@
 *.log
 *.scan
 autom4te.cache
+*.status
