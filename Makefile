@@ -1,6 +1,9 @@
 # Points to the root of Google Test, relative to where this file is.
 # Remember to tweak this if you move this file.
-GTEST_DIR = /home/vishwas/bin/googletest-read-only
+#GTEST_DIR = /home/vishwas/bin/googletest-read-only
+#GTEST_DIR=$(PAPARAZZI_HOME)/gtest-1.6.0
+PAPARAZZI_SRC=$(shell pwd)
+GTEST_DIR=$(PAPARAZZI_SRC)/gtest-1.6.0
 
 # Where to find user code.
 USER_DIR = ./samples
@@ -51,7 +54,7 @@ all:
 	gcc main.c -o main
 
 clean:
-	rm -f main *.o
+	rm -f main sample1_unittest *.o
 
 # Builds a sample test.  A test should link with either gtest.a or
 # gtest_main.a, depending on whether it defines its own main()
@@ -66,3 +69,6 @@ sample1_unittest.o : $(USER_DIR)/sample1_unittest.cc \
 
 sample1_unittest : sample1.o sample1_unittest.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
+
+test: sample1_unittest
+	./sample1_unittest
