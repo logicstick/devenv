@@ -7,15 +7,16 @@ PROJECT_SRC=$(shell pwd)
 
 # Where to find user code.
 CONF_DIR = $(PROJECT_SRC)/conf
-TEST_DIR = $(PROJECT_SRC)/tests
-TEST_BUILD_DIR = $(PROJECT_SRC)/tests/build
+
 BUILD_DIR = $(PROJECT_SRC)/build
 SRC_DIR = $(PROJECT_SRC)/src
 LINKER_DIR = $(PROJECT_SRC)/ld
 INCLUDE_DIR = $(PROJECT_SRC)/include
+OBJ_DIR = $(PROJECT_SRC)/obj
 
 
-include $(PROJECT_SRC)/tests/Makefile.include
+TEST_DIR = $(PROJECT_SRC)/tests
+include $(TEST_DIR)/Makefile.include
 
 # =======================================================
 #  File Management MCU
@@ -65,6 +66,15 @@ SIZE_$(MCU) = arm-none-eabi-size
 all:
 	gcc main.c -o main
 
+# all:
+# 	$(CC) $(OBJ_DIR) -o $(BUILD_DIR)
+
+# $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+# 	$(CC) -c $(INCLUDE_DIR) -o $@ $< $(CPPFLAGS_$(MCU))
+
+# $(OUT): $(OBJS)
+# 	$(CC) -o $@ $^ $(CLAGS) $(LIBS)
+# 	strip $(OUT)
 
 clean:
 	$(REMOVE) $(OBJECTS_TEST)
@@ -72,3 +82,5 @@ clean:
 	$(REMOVE) $(OBJECTS_ARM_$(MCU))
 	$(REMOVE) main
 	$(REMOVE) sample1_unittest
+
+.PHONY: clean
