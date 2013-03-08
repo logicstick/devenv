@@ -7,3 +7,4 @@ autom4te.cache
 
 tests/gtest-1.6.0.zip
 tests/gtest-1.6.0
+tests/build
