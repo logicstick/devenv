@@ -8,13 +8,14 @@ PROJECT_SRC=$(shell pwd)
 # Where to find user code.
 CONF_DIR = $(PROJECT_SRC)/conf
 TEST_DIR = $(PROJECT_SRC)/tests
+TEST_BUILD_DIR = $(PROJECT_SRC)/tests/build
 BUILD_DIR = $(PROJECT_SRC)/build
 SRC_DIR = $(PROJECT_SRC)/src
 LINKER_DIR = $(PROJECT_SRC)/ld
 INCLUDE_DIR = $(PROJECT_SRC)/include
 
 # Points to the root of Google Test, relative to where this file is.
-GTEST_DIR=$(PROJECT_SRC)/gtest-1.6.0
+GTEST_DIR=$(PROJECT_SRC)/tests/gtest-1.6.0
 
 # =======================================================
 #  File Management MCU
@@ -31,6 +32,7 @@ LSCRIPT_ARM_$(MCU)= $(LINKER_DIR)/$(MCU)/ldscript_rom_gnu.ld
 # =======================================================
 # TEST
 OBJECTS_TEST=gtest_main.o gtest-all.o sample1_unittest.o sample1.o
+BUILDLIB_TEST=gtest_main.a
 
 # All Google Test headers.  Usually you shouldn't change this
 # definition.
@@ -89,6 +91,15 @@ SIZE_$(MCU) = arm-none-eabi-size
 # SIZE_TEST = arm-none-eabi-size
 
 
+# Creating a standard make file
+
+all:
+	gcc main.c -o main
+
+test: sample1_unittest
+	./sample1_unittest
+
+
 # For simplicity and to avoid depending on Google Test's
 # implementation details, the dependencies specified below are
 # conservative and not optimized.  This is fine as Google Test
@@ -122,16 +133,8 @@ sample1_unittest.o : $(TEST_DIR)/sample1_unittest.cc \
 sample1_unittest : sample1.o sample1_unittest.o gtest_main.a
 	$(CXX) $(CPPFLAGS_TEST) $(CXXFLAGS_TEST) -lpthread $^ -o $@
 
-# Creating a standard make file
-
-all:
-	gcc main.c -o main
 
 clean:
 	$(REMOVE) $(OBJECTS_TEST)
+	$(REMOVE) $(BUILDLIB_TEST)
 	$(REMOVE) $(OBJECTS_ARM_$(MCU))
-	$(REMOVE) main
-	$(REMOVE) sample1_unittest
-
-test: sample1_unittest
-	./sample1_unittest

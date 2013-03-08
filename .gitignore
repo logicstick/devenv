@@ -4,5 +4,6 @@ autom4te.cache
 *.status
 .h~
 *.o
-gtest-1.6.0.zip
-gtest-1.6.0
+
+tests/gtest-1.6.0.zip
+tests/gtest-1.6.0
