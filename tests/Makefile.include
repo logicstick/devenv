@@ -71,15 +71,42 @@ $(TEST_BUILD_DIR)/gtest_main.a : $(TEST_BUILD_DIR)/gtest-all.o $(TEST_BUILD_DIR)
 # gtest_main.a, depending on whether it defines its own main()
 # function.
 
-$(TEST_BUILD_DIR)/sample1.o : $(TEST_DIR)/sample1.cc $(TEST_DIR)/sample1.h $(GTEST_HEADERS)
+%.o: %.c $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+# IDIR =../include
+# CC=gcc
+# CFLAGS=-I$(IDIR)
+
+# ODIR=obj
+# LDIR =../lib
+
+# LIBS=-lm
+
+# _DEPS = hellomake.h
+# DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
+
+# _OBJ = hellomake.o hellofunc.o 
+# OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
+
+
+# $(ODIR)/%.o: %.c $(DEPS)
+# 	$(CC) -c -o $@ $< $(CFLAGS)
+
+# hellomake: $(OBJ)
+# 	gcc -o $@ $^ $(CFLAGS) $(LIBS)
+
+
+
+$(BUILD_DIR)/%.o : $(SRC_DIR)/%.c $(INCLUDE_DIR)/%.h $(GTEST_HEADERS)
 	@echo "  BUILDING  " $@
-	@$(CXX) $(CPPFLAGS_TEST) $(CXXFLAGS_TEST) -c $(TEST_DIR)/sample1.cc -o $@
+	@$(CXX) -I$(INCLUDE_DIR) $(CPPFLAGS_TEST) $(CXXFLAGS_TEST) -c $(SRC_DIR)/%.c -o $@
 
 $(TEST_BUILD_DIR)/sample1_unittest.o : $(TEST_DIR)/sample1_unittest.cc \
-                     $(TEST_DIR)/sample1.h $(GTEST_HEADERS) 
+                     $(INCLUDE_DIR)/sample1.h $(GTEST_HEADERS) 
 	@echo "  BUILDING  " $@
-	@$(CXX) $(CPPFLAGS_TEST) $(CXXFLAGS_TEST) -c $(TEST_DIR)/sample1_unittest.cc -o $@
+	@$(CXX) -I$(INCLUDE_DIR) $(CPPFLAGS_TEST) $(CXXFLAGS_TEST) -c $(TEST_DIR)/sample1_unittest.cc -o $@
 
-$(TEST_DIR)/sample1_unittest : $(TEST_BUILD_DIR)/sample1.o $(TEST_BUILD_DIR)/sample1_unittest.o $(TEST_BUILD_DIR)/gtest_main.a
+$(TEST_DIR)/sample1_unittest : $(BUILD_DIR)/sample1.o $(TEST_BUILD_DIR)/sample1_unittest.o $(TEST_BUILD_DIR)/gtest_main.a
 	@echo "  BUILDING  " $@
-	@$(CXX) $(CPPFLAGS_TEST) $(CXXFLAGS_TEST) -lpthread $^ -o $@
+	@$(CXX) -I$(INCLUDE_DIR) $(CPPFLAGS_TEST) $(CXXFLAGS_TEST) -lpthread $^ -o $@

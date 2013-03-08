@@ -12,7 +12,7 @@ Goals
 1. Continous Integration support from hudson ci or travis ci
 
 
-List of archieved branches are in [Archive][./ARCHIEVE]
+List of archieved branches are in [Archive](./ARCHIEVE])
 
 
 ###How to merge features
