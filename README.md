@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/logicstick/devenv.png)](https://travis-ci.org/logicstick/devenv)
+[![Build Status](https://travis-ci.org/logicstick/devenv.png?branch=master)](https://travis-ci.org/logicstick/devenv)
 
 Development Environment
 =========================
