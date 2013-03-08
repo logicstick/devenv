@@ -22,5 +22,5 @@ AC_HEADER_STDBOOL
 AC_CHECK_FUNCS([gettimeofday])
 
 AC_CONFIG_FILES([Makefile])
-AC_CONFIG_SUBDIRS([gtest-1.6.0])
+AC_CONFIG_SUBDIRS([tests/gtest-1.6.0])
 AC_OUTPUT
